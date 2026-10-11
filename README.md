@@ -11,8 +11,9 @@ An independently runnable FastAPI service that validates property submissions an
 From this directory, create a virtual environment and install the API and development dependencies:
 
 ```powershell
-py -3.12 -m venv .venv
-.venv\Scripts\Activate.ps1
+py -3.14 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+### If the above command does not work try this Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass .\.venv\Scripts\Activate.ps1
 python -m pip install -e ".[dev]"
 $env:PRICE_PREDICTION_API_URL = "http://127.0.0.1:8000"
 $env:PREDICTION_API_TIMEOUT = "5"
