@@ -1,4 +1,4 @@
-# Marketanalysis API
+# Value Estimator API
 
 An independently runnable FastAPI service that validates property submissions and calls the existing `PricePredictionModel` API over HTTP. It does not import model code or artifacts.
 
@@ -26,7 +26,7 @@ Start `PricePredictionModel` first, then set `PRICE_PREDICTION_API_URL` to its b
 
 | Method | Path | Description |
 | --- | --- | --- |
-| GET | `/health` | Marketanalysis and upstream model availability |
+| GET | `/health` | Value estimator and upstream model availability |
 | POST | `/api/v1/estimates` | Estimate one property |
 | POST | `/api/v1/estimates/batch` | Estimate 1–100 properties |
 

@@ -10,10 +10,10 @@ app/routers/estimates.py
 app/routers/health.py
 app/services/__init__.py
 app/services/prediction_client.py
-marketanalysis_api.egg-info/PKG-INFO
-marketanalysis_api.egg-info/SOURCES.txt
-marketanalysis_api.egg-info/dependency_links.txt
-marketanalysis_api.egg-info/requires.txt
-marketanalysis_api.egg-info/top_level.txt
+valueestimator/PKG-INFO
+valueestimator/SOURCES.txt
+valueestimator/dependency_links.txt
+valueestimator/requires.txt
+valueestimator/top_level.txt
 tests/test_estimates.py
 tests/test_prediction_client.py

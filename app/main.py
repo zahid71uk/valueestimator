@@ -80,7 +80,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             yield
 
     application = FastAPI(
-        title="Market Analysis API",
+        title="Value Estimator API",
         description="Property estimate and comparison API backed by the house-price model.",
         version="0.1.0",
         lifespan=lifespan,
