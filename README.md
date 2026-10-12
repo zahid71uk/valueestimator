@@ -13,11 +13,16 @@ From this directory, create a virtual environment and install the API and develo
 ```powershell
 py -3.14 -m venv .venv
 .\.venv\Scripts\Activate.ps1
-### If the above command does not work try this Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass .\.venv\Scripts\Activate.ps1
+### If the above command does not work try this first  
+### Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+### .\.venv\Scripts\Activate.ps1
 python -m pip install -e ".[dev]"
 $env:PRICE_PREDICTION_API_URL = "http://127.0.0.1:8000"
 $env:PREDICTION_API_TIMEOUT = "5"
 uvicorn app.main:app --reload --port 8001
+### if above command doesn't work fatal error in luncher something like unable to create process... it uvicorn might be point to the 
+### deleted project folder try the below command instead 
+###python -m uvicorn app.main:app --reload --port 8001
 ```
 
 Start `PricePredictionModel` first, then set `PRICE_PREDICTION_API_URL` to its base URL. `PREDICTION_API_TIMEOUT` controls the upstream request timeout in seconds. Interactive API docs are at `http://127.0.0.1:8001/docs`.
