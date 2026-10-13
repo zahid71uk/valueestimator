@@ -8,22 +8,23 @@ An independently runnable FastAPI service that validates property submissions an
 
 ## Setup and run
 
-From this directory, create a virtual environment and install the API and development dependencies:
+```### If you get error when activating virtual environment us ethe below command to bypass policy issue
+```### Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
+From this directory, create a virtual environment with Python 3.12 (the minimum supported version), then install the API and development dependencies:
 
 ```powershell
-py -3.14 -m venv .venv
-.\.venv\Scripts\Activate.ps1
-### If the above command does not work try this first  
+py -3.12 -m venv .venv312
+### If you get error when activating virtual environment us ethe below command to bypass policy issue
 ### Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-### .\.venv\Scripts\Activate.ps1
+.\.venv312\Scripts\Activate.ps1
 python -m pip install -e ".[dev]"
 $env:PRICE_PREDICTION_API_URL = "http://127.0.0.1:8000"
 $env:PREDICTION_API_TIMEOUT = "5"
-uvicorn app.main:app --reload --port 8001
-### if above command doesn't work fatal error in luncher something like unable to create process... it uvicorn might be point to the 
-### deleted project folder try the below command instead 
-###python -m uvicorn app.main:app --reload --port 8001
+python -m uvicorn app.main:app --reload --port 8001
 ```
+
+For a newer Python version, replace `3.12` and `.venv312` with that version (for example, `3.14` and `.venv314`). Use a separate virtual environment for each Python version; do not reuse one created by another interpreter.
 
 Start `PricePredictionModel` first, then set `PRICE_PREDICTION_API_URL` to its base URL. `PREDICTION_API_TIMEOUT` controls the upstream request timeout in seconds. Interactive API docs are at `http://127.0.0.1:8001/docs`.
 
