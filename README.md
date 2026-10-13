@@ -28,6 +28,17 @@ For a newer Python version, replace `3.12` and `.venv312` with that version (for
 
 Start `PricePredictionModel` first, then set `PRICE_PREDICTION_API_URL` to its base URL. `PREDICTION_API_TIMEOUT` controls the upstream request timeout in seconds. Interactive API docs are at `http://127.0.0.1:8001/docs`.
 
+## Docker
+
+Build and run the image from this directory. For communication with the other containers, first start `PricePredictionModel` on the `property-estimator` Docker network as described in its README:
+
+```powershell
+docker build -t value-estimator-api .
+docker run -d --name valueestimator --network property-estimator -p 8001:8001 -e PRICE_PREDICTION_API_URL=http://price-prediction:8000 -e PREDICTION_API_TIMEOUT=5 value-estimator-api
+```
+
+The image uses Python 3.12 and runs Uvicorn on port 8001. Open `http://localhost:8001/docs` for interactive API documentation. Stop the container with `docker stop valueestimator` and remove it with `docker rm valueestimator`.
+
 ## Endpoints
 
 | Method | Path | Description |
