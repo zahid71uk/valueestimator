@@ -28,6 +28,10 @@ For a newer Python version, replace `3.12` and `.venv312` with that version (for
 
 Start `PricePredictionModel` first, then set `PRICE_PREDICTION_API_URL` to its base URL. `PREDICTION_API_TIMEOUT` controls the upstream request timeout in seconds. Interactive API docs are at `http://127.0.0.1:8001/docs`.
 
+## Logging
+
+Application logs are written to the terminal (stdout/stderr), not to project log files. `LOG_LEVEL` defaults to `INFO`; set it to `DEBUG`, `WARNING`, or `ERROR` to change verbosity. For a Docker run, use `docker logs -f valueestimator`.
+
 ## Docker
 
 Build and run the image from this directory. For communication with the other containers, first start `PricePredictionModel` on the `property-estimator` Docker network as described in its README:

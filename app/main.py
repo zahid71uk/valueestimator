@@ -1,3 +1,5 @@
+import logging
+import os
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
@@ -10,6 +12,13 @@ from app.config import Settings
 from app.routers import estimates, health
 from app.schemas import BatchEstimateRequest, PropertyFeatures
 from app.services.prediction_client import PredictionService
+
+log_level = os.getenv("LOG_LEVEL", "INFO").upper()
+logging.basicConfig(
+    level=log_level,
+    format="%(asctime)s %(levelname)s %(name)s %(message)s",
+)
+logging.getLogger().setLevel(log_level)
 
 
 def _describe_schema(schema: dict, definitions: dict) -> dict:

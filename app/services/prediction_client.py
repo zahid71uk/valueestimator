@@ -1,3 +1,5 @@
+import logging
+
 import httpx
 from fastapi import HTTPException
 from pydantic import ValidationError
@@ -7,6 +9,8 @@ from app.schemas import (
     EstimateResponse,
     PropertyFeatures,
 )
+
+logger = logging.getLogger(__name__)
 
 
 class PredictionService:
@@ -18,6 +22,7 @@ class PredictionService:
         try:
             return EstimateResponse.model_validate(result).model_dump()
         except ValidationError as exc:
+            logger.warning("Prediction API returned an invalid single-estimate response")
             raise self._invalid_response() from exc
 
     async def predict_batch(self, houses: list[PropertyFeatures]) -> dict:
@@ -28,6 +33,7 @@ class PredictionService:
         try:
             return BatchEstimateResponse.model_validate(result).model_dump()
         except ValidationError as exc:
+            logger.warning("Prediction API returned an invalid batch-estimate response")
             raise self._invalid_response() from exc
 
     async def is_available(self) -> bool:
@@ -49,22 +55,26 @@ class PredictionService:
         try:
             response = await self._client.post(path, json=payload)
         except httpx.TimeoutException as exc:
+            logger.warning("Prediction API request timed out: path=%s", path)
             raise HTTPException(
                 status_code=504,
                 detail="The prediction service took too long to respond. Please try again.",
             ) from exc
         except httpx.RequestError as exc:
+            logger.warning("Prediction API request failed: path=%s error_type=%s", path, type(exc).__name__)
             raise HTTPException(
                 status_code=503,
                 detail="The prediction service is unavailable. Please try again later.",
             ) from exc
 
         if response.status_code == 503:
+            logger.warning("Prediction API is unavailable: path=%s status=503", path)
             raise HTTPException(
                 status_code=503,
                 detail="The prediction model is not available right now.",
             )
         if not response.is_success:
+            logger.warning("Prediction API returned an error: path=%s status=%d", path, response.status_code)
             raise HTTPException(
                 status_code=502,
                 detail="The prediction service could not process this estimate.",
@@ -73,6 +83,7 @@ class PredictionService:
         try:
             return response.json()
         except ValueError as exc:
+            logger.warning("Prediction API returned invalid JSON: path=%s", path)
             raise self._invalid_response() from exc
 
     @staticmethod
